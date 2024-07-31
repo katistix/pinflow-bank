@@ -38,7 +38,6 @@ export const SendMoneyToIBAN = (props: SendMoneyToIBANProps) => {
             const errorData = await res.json();
             toast.error(errorData.error);
         }
-
     }
 
 
