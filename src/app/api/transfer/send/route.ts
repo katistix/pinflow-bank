@@ -48,6 +48,9 @@ export async function POST(request: Request) {
     // Move the money
     try {
         await bankAccountsService.transferMoney(bankAccount.id, recipientAccount.id, validatedBody.amount, convertedAmount);
+
+        // Create a transaction
+        await bankAccountsService.createTransaction(bankAccount.id, recipientAccount.id, validatedBody.amount, convertedAmount);
     }
     catch (e: any) {
         return NextResponse.json({ error: e.message }, {

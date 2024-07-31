@@ -5,8 +5,10 @@ import { Button } from "../ui/button";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "../ui/dialog";
 import { Input } from "../ui/input";
 import toast from "react-hot-toast";
+import { IconArrowsExchange } from "@tabler/icons-react";
 
 type SendMoneyToIBANProps = {
+    className?: string;
     selectedAccount: string;
 }
 
@@ -44,12 +46,12 @@ export const SendMoneyToIBAN = (props: SendMoneyToIBANProps) => {
     return (
         <div>
             <Dialog>
-                <DialogTrigger asChild>
-                    <Button>Send money to IBAN</Button>
+                <DialogTrigger className="w-full" asChild>
+                    <Button className={props.className} size={"lg"}>Send money <IconArrowsExchange className="w-6 h-6 ml-2" /></Button>
                 </DialogTrigger>
                 <DialogContent className="sm:max-w-[425px]">
                     <DialogHeader>
-                        <DialogTitle>Send money to IBAN</DialogTitle>
+                        <DialogTitle>Send money</DialogTitle>
                     </DialogHeader>
                     <Input value={iban || ""} onChange={(e) => setIBAN(e.target.value)} type="text" placeholder="Enter IBAN" />
                     <Input type={"number"}

@@ -93,5 +93,22 @@ model BankAccount {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
-  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+  name String @default("Unnamed Account")
+
+  user                User          @relation(fields: [userId], references: [id], onDelete: Cascade)
+  SenderTransaction   Transaction[] @relation("Sender")
+  ReceiverTransaction Transaction[] @relation("Receiver")
+}
+
+model Transaction {
+  id        String   @id @default(cuid())
+  amount    Float
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  // Relations
+  sender     BankAccount @relation("Sender", fields: [senderId], references: [id])
+  senderId   String
+  receiver   BankAccount @relation("Receiver", fields: [receiverId], references: [id])
+  receiverId String
 }

@@ -20,6 +20,18 @@ export class BankAccountsService {
         return bankAccount;
     }
 
+    async createTransaction(fromId: string, toId: string, subtractAmount: number, addAmount: number) {
+        const transaction = await this.prisma.transaction.create({
+            data: {
+                senderId: fromId,
+                receiverId: toId,
+                amount: subtractAmount
+            }
+        });
+
+        return transaction;
+    }
+
     async transferMoney(fromId: string, toId: string, subtractAmount: number, addAmount: number) {
         const fromAccount = await this.prisma.bankAccount.findFirst({
             where: {
@@ -78,8 +90,6 @@ export class BankAccountsService {
     }
     async createNewBankAccount(userId: string, currency: "USD" | "EUR" | "GBP") {
         // Generate a new bank account iban
-        // the iban starts with "PNFL" and is followed by 26 random characters
-        // Example: PNFL12345678901234567890123
 
         // Make sure there is no other bank account with the same iban
         // If there is, generate a new iban
@@ -99,6 +109,7 @@ export class BankAccountsService {
 
         const newBankAccount = await this.prisma.bankAccount.create({
             data: {
+                name: "Main",
                 iban,
                 userId,
                 balance: 0,
