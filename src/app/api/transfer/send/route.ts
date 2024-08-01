@@ -1,4 +1,5 @@
 import { auth } from "@/lib/auth";
+import { exchange } from "@/lib/bnrExchange";
 import { bankAccountsService } from "@/services";
 import { NextResponse } from "next/server";
 import { z } from "zod";
@@ -36,13 +37,20 @@ export async function POST(request: Request) {
         return NextResponse.json({ error: "Recipient account not found" }, { status: 404 });
     }
 
+    // if the recipient account is the same as the sender account, return an error
+    if (recipientAccount.id === bankAccount.id) {
+        return NextResponse.json({ error: "You can't send money to the same account" }, { status: 400 });
+    }
+
     // Make the transaction only if the current account has enough funds
     if (bankAccount.balance < validatedBody.amount) {
         return NextResponse.json({ error: "Insufficient funds" }, { status: 400 });
     }
 
-    // TODO: CONVERT CURRENCY!!!!!
-    const convertedAmount = validatedBody.amount;
+
+    let convertedAmount = await exchange(bankAccount.currency, recipientAccount.currency, validatedBody.amount);
+    // Round to 2 decimals
+    convertedAmount = Math.round((convertedAmount + Number.EPSILON) * 100) / 100;
     console.log("Converted amount", convertedAmount);
 
     // Move the money
