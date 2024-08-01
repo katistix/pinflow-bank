@@ -3,9 +3,22 @@ import { auth } from "@/lib/auth"
 import { signIn } from "next-auth/webauthn"
 import { signOut, useSession } from "next-auth/react";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
+import { useRouter } from "next/router";
 
 export default function Login() {
     const session = useSession()
+
+    if (session.status === "loading") {
+        return (
+            <div className="p-8 w-screen h-screen flex items-center justify-center">
+                <p className="text-gray-500">Loading...</p>
+            </div>
+        )
+    }
+
+    if (session.status === "authenticated") {
+        window.location.href = "/feed";
+    }
 
     return (
         <div className=" p-8 w-screen h-screen flex items-center justify-center">
