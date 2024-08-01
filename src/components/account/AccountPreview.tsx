@@ -4,6 +4,7 @@ import { IconDots, IconPlus, IconQrcode, IconReceipt } from '@tabler/icons-react
 import { AddMoneyDialog } from './AddMoney';
 import { IbanQrDrawer } from './IbanQrDrawer';
 import { NewBankAccount } from './NewBankAccount';
+import AccountMore from './AccountMore';
 
 type AccountPreviewProps = {
     account: {
@@ -69,13 +70,17 @@ export const AccountPreview = ({ account }: AccountPreviewProps) => {
                     <IconReceipt className="h-4 w-4" />
                 </ActionButton>
                 <IbanQrDrawer iban={account.iban}>
-                    <ActionButton onClick={() => console.log("")} label='Show IBAN'>
+                    <ActionButton label='Show IBAN'>
                         <IconQrcode className="h-4 w-4" />
                     </ActionButton>
                 </IbanQrDrawer>
-                <ActionButton onClick={() => console.log("")} label='More'>
-                    <IconDots className="h-4 w-4" />
-                </ActionButton>
+
+
+                <AccountMore>
+                    <ActionButton label='More'>
+                        <IconDots className="h-4 w-4" />
+                    </ActionButton>
+                </AccountMore>
             </div>
             {/* <SendMoneyToIBAN className="" selectedAccount={account.id} /> */}
         </div>

@@ -148,6 +148,29 @@ export class BankAccountsService {
         return newBankAccount;
     }
 
+    async updateAccountName(bankAccountId: string, newName: string) {
+        const bankAccount = await this.prisma.bankAccount.findFirst({
+            where: {
+                id: bankAccountId
+            }
+        });
+
+        if (!bankAccount) {
+            throw new Error("Bank account not found");
+        }
+
+        await this.prisma.bankAccount.update({
+            where: {
+                id: bankAccountId
+            },
+            data: {
+                name: newName
+            }
+        });
+
+        return bankAccount;
+    }
+
     async deleteBankAccount(bankAccountId: string) {
         const bankAccount = await this.prisma.bankAccount.findFirst({
             where: {

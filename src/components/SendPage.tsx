@@ -132,7 +132,7 @@ export function SendPage(props: SendPageProps) {
                 <select className="max-w-64 bg-stone-900 p-2 rounded-sm" onChange={handleAccountChange} value={selectedAccount || ""}>
                     {props.bankAccounts.map(account => (
                         <option key={account.id} className="text-xs" value={account.id}>
-                            {account.currency} &bull; {account.name} ({account.iban})
+                            {account.balance.toFixed(2)} {account.currency} &bull; {account.name} ({account.iban})
                         </option>
                     ))}
                 </select>
