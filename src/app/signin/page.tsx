@@ -8,10 +8,10 @@ export default function Login() {
     const session = useSession()
 
     return (
-        <div className="bg-stone-200 w-screen h-screen flex items-center justify-center">
+        <div className=" p-8 w-screen h-screen flex items-center justify-center">
             <Card className="w-full max-w-md mx-auto p-6">
                 <CardHeader>
-                    <CardTitle className="text-2xl font-bold">Welcome Back!</CardTitle>
+                    <CardTitle className="text-2xl font-bold">Welcome!</CardTitle>
                     <CardDescription className="text-gray-600">Please sign in to continue</CardDescription>
                 </CardHeader>
                 <CardContent>
@@ -26,7 +26,7 @@ export default function Login() {
                                 </button>
                                 <button
                                     className="w-full bg-green-500 text-white py-2 rounded-md hover:bg-green-600 transition-colors"
-                                    onClick={() => signIn("passkey")}
+                                    onClick={() => signIn("passkey", { callbackUrl: "/feed" })}
                                 >
                                     Sign in with Passkey
                                 </button>

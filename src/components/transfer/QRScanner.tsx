@@ -2,7 +2,6 @@
 
 import { IconQrcode } from "@tabler/icons-react";
 import { Dialog, DialogContent, DialogTrigger } from "../ui/dialog"
-import toast from "react-hot-toast";
 import { Scanner } from '@yudiel/react-qr-scanner';
 import { useState } from "react";
 
