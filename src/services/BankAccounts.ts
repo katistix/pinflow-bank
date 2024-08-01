@@ -20,6 +20,18 @@ export class BankAccountsService {
         return bankAccount;
     }
 
+    async createTopUpTransaction(bankAccountId: string, amount: number, currency: "USD" | "EUR" | "GBP") {
+        const transaction = await this.prisma.topUpTransaction.create({
+            data: {
+                bankAccountId,
+                currency,
+                amount
+            }
+        });
+
+        return transaction;
+    }
+
     async createTransaction(fromId: string, toId: string, subtractAmount: number, addAmount: number) {
         const transaction = await this.prisma.transaction.create({
             data: {
@@ -141,6 +153,28 @@ export class BankAccountsService {
             }
         });
     }
+
+    async updateBalance(bankAccountId: string, newBalance: number) {
+        const bankAccount = await this.prisma.bankAccount.findFirst({
+            where: {
+                id: bankAccountId
+            }
+        });
+
+        if (!bankAccount) {
+            throw new Error("Bank account not found");
+        }
+
+        await this.prisma.bankAccount.update({
+            where: {
+                id: bankAccountId
+            },
+            data: {
+                balance: newBalance
+            }
+        });
+    }
+
 
     // ==============
 

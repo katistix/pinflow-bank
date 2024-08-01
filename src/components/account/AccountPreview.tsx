@@ -4,6 +4,7 @@ import { Button } from '../ui/button';
 import { IconDots, IconPlus, IconReceipt } from '@tabler/icons-react';
 import { SendMoneyToIBAN } from '../transfer/SendMoneyToIBAN';
 import { BalanceChart } from './BalanceChart';
+import { AddMoneyDialog } from './AddMoney';
 
 type AccountPreviewProps = {
     account: {
@@ -37,9 +38,11 @@ export const AccountPreview = ({ account }: AccountPreviewProps) => {
             <h1 className="text-4xl font-bold text-center my-4">{account.balance} {account.currency}</h1>
 
             <div className="flex flex-row justify-between w-full px-4 my-8">
-                <ActionButton onClick={() => console.log("")} label='Add money'>
-                    <IconPlus className="h-4 w-4" />
-                </ActionButton>
+                <AddMoneyDialog accountID={account.id} accountName={account.name} currency={account.currency}>
+                    <ActionButton onClick={() => console.log("")} label='Add money'>
+                        <IconPlus className="h-4 w-4" />
+                    </ActionButton>
+                </AddMoneyDialog>
                 <ActionButton onClick={() => console.log("")} label='Transactions'>
                     <IconReceipt className="h-4 w-4" />
                 </ActionButton>

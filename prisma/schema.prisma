@@ -95,9 +95,12 @@ model BankAccount {
 
   name String @default("Unnamed Account")
 
-  user                User          @relation(fields: [userId], references: [id], onDelete: Cascade)
-  SenderTransaction   Transaction[] @relation("Sender")
-  ReceiverTransaction Transaction[] @relation("Receiver")
+  user                User               @relation(fields: [userId], references: [id], onDelete: Cascade)
+  SenderTransaction   Transaction[]      @relation("Sender")
+  ReceiverTransaction Transaction[]      @relation("Receiver")
+  TopUpTransaction    TopUpTransaction[]
+
+  @@unique([userId, iban])
 }
 
 model Transaction {
@@ -111,4 +114,16 @@ model Transaction {
   senderId   String
   receiver   BankAccount @relation("Receiver", fields: [receiverId], references: [id])
   receiverId String
+}
+
+model TopUpTransaction {
+  id        String   @id @default(cuid())
+  currency  Currency
+  amount    Float
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  // Relations
+  bankAccount   BankAccount @relation(fields: [bankAccountId], references: [id])
+  bankAccountId String
 }
