@@ -24,10 +24,10 @@ export async function GET(request: Request, route: { params: { accountId: string
     }
 
     // Get the transactions of the past week
-    const balanceHistory = await bankAccountsService.getTransactions(accountId);
+    const transactionHistory = await bankAccountsService.getTransactions(accountId);
 
     // Filter the transactions to get only the ones from the past week
-    const pastWeekBalanceHistory = balanceHistory.filter(transaction => {
+    const pastWeekBalanceHistory = transactionHistory.filter(transaction => {
         const transactionDate = new Date(transaction.createdAt);
         const now = new Date();
         const pastWeek = new Date(now.setDate(now.getDate() - 7));

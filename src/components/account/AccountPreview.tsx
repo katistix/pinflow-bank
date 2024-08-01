@@ -21,7 +21,7 @@ const ActionButton = ({ children, onClick, label }: {
     label?: string
 }) => {
     return (
-        <div className='flex flex-col items-center justify-center text-white'>
+        <div onClick={onClick} className='flex flex-col items-center justify-center text-white'>
             <div className='flex rounded-full p-1 h-10 w-10 bg-stone-700 justify-center items-center text-white bg-opacity-60'>
                 {children}
             </div>
@@ -43,7 +43,29 @@ export const AccountPreview = ({ account }: AccountPreviewProps) => {
                         <IconPlus className="h-4 w-4" />
                     </ActionButton>
                 </AddMoneyDialog>
-                <ActionButton onClick={() => console.log("")} label='Transactions'>
+                <ActionButton onClick={async () => {
+                    console.log("fetching transactions", account.id);
+                    const res = await fetch(`/api/extras`, {
+                        method: 'POST',
+                        body: JSON.stringify({ accountID: account.id }),
+                        headers: {
+                            'Content-Type': 'application/json'
+                        }
+                    });
+                    // Save the received data bytes into a file
+                    const data = await res.blob();
+                    // Download the file
+                    const url = window.URL.createObjectURL(data);
+
+                    const a = document.createElement('a');
+                    a.href = url;
+                    a.download = 'transactions.pdf';
+                    document.body.appendChild(a);
+                    a.click();
+                    window.URL.revokeObjectURL(url);
+
+                    console.log(data);
+                }} label='Transactions'>
                     <IconReceipt className="h-4 w-4" />
                 </ActionButton>
                 <IbanQrDrawer iban={account.iban}>
