@@ -66,9 +66,9 @@ export const AddMoneyDialog = (props: AddMoneyDialogProps) => {
                     <DialogTitle>Add Money</DialogTitle>
                     <DialogDescription>Deposit money into your <span className="text-primary">{props.accountName}</span> account.</DialogDescription>
                 </DialogHeader>
-                <div>
+                <div className="flex flex-col gap-4 w-full">
                     <Input type="number" placeholder={"0.00 " + props.currency} value={amount} onChange={handleAmountChange} />
-                    <Button onClick={handleAddMoney} disabled={amount <= 0}>Add money</Button>
+                    <Button className="w-full" onClick={handleAddMoney} disabled={amount <= 0}>Add money</Button>
                 </div>
             </DialogContent>
         </Dialog>

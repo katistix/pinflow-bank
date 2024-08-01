@@ -108,6 +108,7 @@ model Transaction {
   amount    Float
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+  category  String?  @default("OTHER")
 
   // Relations
   sender     BankAccount @relation("Sender", fields: [senderId], references: [id])

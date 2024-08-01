@@ -1,10 +1,11 @@
 "use client"
 import React from 'react';
 import { Button } from '../ui/button';
-import { IconDots, IconPlus, IconReceipt } from '@tabler/icons-react';
+import { IconDots, IconPlus, IconQrcode, IconReceipt } from '@tabler/icons-react';
 import { SendMoneyToIBAN } from '../transfer/SendMoneyToIBAN';
 import { BalanceChart } from './BalanceChart';
 import { AddMoneyDialog } from './AddMoney';
+import { IbanQrDrawer } from './IbanQrDrawer';
 
 type AccountPreviewProps = {
     account: {
@@ -35,7 +36,7 @@ export const AccountPreview = ({ account }: AccountPreviewProps) => {
     return (
         <div className="flex flex-col justify-center items-center py-10">
             <h2 className='text-xs'>{account.name} &bull; {account.currency}</h2>
-            <h1 className="text-4xl font-bold text-center my-4">{account.balance} {account.currency}</h1>
+            <h1 className="text-4xl font-bold text-center my-4">{account.balance.toFixed(2)} {account.currency}</h1>
 
             <div className="flex flex-row justify-between w-full px-4 my-8">
                 <AddMoneyDialog accountID={account.id} accountName={account.name} currency={account.currency}>
@@ -46,11 +47,16 @@ export const AccountPreview = ({ account }: AccountPreviewProps) => {
                 <ActionButton onClick={() => console.log("")} label='Transactions'>
                     <IconReceipt className="h-4 w-4" />
                 </ActionButton>
+                <IbanQrDrawer iban={account.iban}>
+                    <ActionButton onClick={() => console.log("")} label='Show IBAN'>
+                        <IconQrcode className="h-4 w-4" />
+                    </ActionButton>
+                </IbanQrDrawer>
                 <ActionButton onClick={() => console.log("")} label='More'>
                     <IconDots className="h-4 w-4" />
                 </ActionButton>
             </div>
-            <SendMoneyToIBAN className="" selectedAccount={account.id} />
+            {/* <SendMoneyToIBAN className="" selectedAccount={account.id} /> */}
         </div>
     )
 }

@@ -1,6 +1,7 @@
 import { auth } from "@/lib/auth";
 import { exchange } from "@/lib/bnrExchange";
 import { bankAccountsService } from "@/services";
+import { TransactionCategory } from "@/services/types";
 import { NextResponse } from "next/server";
 import { z } from "zod";
 
@@ -18,6 +19,7 @@ export async function POST(request: Request) {
         from: z.string(), // The id of the account from which we will send money
         toIBAN: z.string(), // The IBAN to which we will send money
         amount: z.number(),
+        category: z.nativeEnum(TransactionCategory)
     })
 
     const validatedBody = await sendMoneySchema.parseAsync(body);
@@ -58,7 +60,7 @@ export async function POST(request: Request) {
         await bankAccountsService.transferMoney(bankAccount.id, recipientAccount.id, validatedBody.amount, convertedAmount);
 
         // Create a transaction
-        await bankAccountsService.createTransaction(bankAccount.id, recipientAccount.id, validatedBody.amount, convertedAmount);
+        await bankAccountsService.createTransaction(bankAccount.id, recipientAccount.id, validatedBody.amount, convertedAmount, validatedBody.category);
     }
     catch (e: any) {
         return NextResponse.json({ error: e.message }, {

@@ -1,4 +1,5 @@
 import { PrismaClient } from "@prisma/client";
+import { TransactionCategory } from "./types";
 
 export class BankAccountsService {
     constructor(
@@ -32,12 +33,13 @@ export class BankAccountsService {
         return transaction;
     }
 
-    async createTransaction(fromId: string, toId: string, subtractAmount: number, addAmount: number) {
+    async createTransaction(fromId: string, toId: string, subtractAmount: number, addAmount: number, category: TransactionCategory) {
         const transaction = await this.prisma.transaction.create({
             data: {
                 senderId: fromId,
                 receiverId: toId,
-                amount: subtractAmount
+                amount: subtractAmount,
+                category
             }
         });
 
