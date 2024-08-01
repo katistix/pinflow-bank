@@ -1,4 +1,12 @@
-# Documentatie API Endpoints
+# Pinflow Bank - Proiect OPEN InfoEducatie 2024
+
+The challenge was to create a banking application that is able to manage bank accounts, transactions, and generate reports. While also being able to do inter bank transfers.
+
+[Read the complete document here](https://docs.google.com/document/u/0/d/e/2PACX-1vTqeDavNQtGt0t5NUvd9IfjMxQglrr0yzSZ6x9xRtT2qFaat-NijF_IBmEhOK74uK1wGErkY5N0x9GZ/pub?pli=1)
+
+
+
+# API Endpoints documentation
 
 ## `/api/bankaccount`
 
