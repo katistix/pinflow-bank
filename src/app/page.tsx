@@ -1,6 +1,7 @@
 "use client"
 import { Button } from "@/components/ui/button"
 import { motion } from "framer-motion"
+import Image from "next/image"
 import Link from "next/link"
 
 export default function Home() {
@@ -8,6 +9,12 @@ export default function Home() {
         <div className="w-full flex flex-col bg-black">
             {/* Hero sections */}
             <section className="w-full p-8 flex flex-col items-center justify-center h-screen">
+                <motion.div initial={{ opacity: 0, scale: 0.5 }}
+                    animate={{ opacity: 1, scale: 1 }}
+                    transition={{ duration: 0.7 }} className="flex-row mb-36 flex items-center gap-2">
+                    <Image src="/logo_text.png" className="w-12 h-12 rounded-md" height={40} width={40} alt="" />
+                    <span className="text-xl font-bold">Pinflow Bank</span>
+                </motion.div>
                 <motion.h1 initial={{ opacity: 0, scale: 0.5 }}
                     animate={{ opacity: 1, scale: 1 }}
                     transition={{ duration: 0.7 }}
