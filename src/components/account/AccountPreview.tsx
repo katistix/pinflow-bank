@@ -1,9 +1,6 @@
 "use client"
 import React from 'react';
-import { Button } from '../ui/button';
 import { IconDots, IconPlus, IconQrcode, IconReceipt } from '@tabler/icons-react';
-import { SendMoneyToIBAN } from '../transfer/SendMoneyToIBAN';
-import { BalanceChart } from './BalanceChart';
 import { AddMoneyDialog } from './AddMoney';
 import { IbanQrDrawer } from './IbanQrDrawer';
 

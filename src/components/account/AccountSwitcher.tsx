@@ -10,7 +10,7 @@ import { AccountPreview } from "./AccountPreview";
 import { IconPlus, IconReceipt } from '@tabler/icons-react';
 import { useAtom } from "jotai";
 import { selectedAccountAtom } from "@/lib/atoms";
-import { BalanceChart } from "./BalanceChart";
+import { ExpensesPieChart } from "./ExpensesPieChart";
 
 
 type AccountSwitcherProps = {
@@ -72,7 +72,7 @@ export const AccountSwitcher = (props: AccountSwitcherProps) => {
                 </CarouselContent>
             </Carousel>
             <div className="rounded-md bg-stone-900">
-                <BalanceChart />
+                <ExpensesPieChart accountId={selectedAccount || ""} currency={props.accounts[activeIndex].currency} />
             </div>
 
         </div>

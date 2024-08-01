@@ -33,6 +33,16 @@ export class BankAccountsService {
         return transaction;
     }
 
+    async getTransactions(bankAccountId: string) {
+        const transactions = await this.prisma.transaction.findMany({
+            where: {
+                senderId: bankAccountId
+            }
+        });
+
+        return transactions;
+    }
+
     async createTransaction(fromId: string, toId: string, subtractAmount: number, addAmount: number, category: TransactionCategory) {
         const transaction = await this.prisma.transaction.create({
             data: {
