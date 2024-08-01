@@ -1,11 +1,12 @@
 "use client";
 
 import { Input } from "@/components/ui/input";
-import { IconArrowLeft } from "@tabler/icons-react";
+import { IconArrowLeft, IconQrcode } from "@tabler/icons-react";
 import { useEffect, useState } from "react";
 import { TransactionCategory } from "@/services/types";
 import { Button } from "./ui/button";
 import toast from "react-hot-toast";
+import { QRScanner } from "./transfer/QRScanner";
 
 type SendPageProps = {
     bankAccounts: {
@@ -124,13 +125,13 @@ export function SendPage(props: SendPageProps) {
             <div className="p-4">
                 {/* Max amount */}
                 {balance && (
-                    <p className="text-xs text-center opacity-75">Max: {balance} {currency}</p>
+                    <p className="text-xs text-center opacity-75">Max: {balance.toFixed(2)} {currency}</p>
                 )}
                 <input
                     className="bg-none border-none bg-transparent outline-none w-full pb-8 text-5xl font-bold text-center"
                     type="number"
                     placeholder="0.00"
-                    value={amount || ""}
+                    value={amount ? amount.toFixed(2) : ""}
                     onChange={handleAmountChange}
                 />
                 {currency && (
@@ -140,7 +141,7 @@ export function SendPage(props: SendPageProps) {
 
 
             <div className="flex flex-col items-center justify-center w-full">
-                <label className="text-xs">From Account</label>
+                <label className="text-xs mb-2">From Account</label>
                 {/* Account select */}
                 <select className="max-w-64 bg-stone-900 p-2 rounded-sm" onChange={handleAccountChange} value={selectedAccount || ""}>
                     {props.bankAccounts.map(account => (
@@ -153,7 +154,10 @@ export function SendPage(props: SendPageProps) {
 
             <div className="flex flex-col p-4 mt-4">
                 <label className="text-xs">IBAN</label>
-                <input className="bg-stone-900 p-4 rounded-md my-4" type="text" placeholder="Enter IBAN" value={iban || ""} onChange={(e) => setIBAN(e.target.value)} />
+                <div className="w-full flex justify-center relative">
+                    <input className="relative w-full bg-stone-900 p-4 rounded-md my-4" type="text" placeholder="Enter IBAN" value={iban || ""} onChange={(e) => setIBAN(e.target.value)} />
+                    <QRScanner onScan={(val) => setIBAN(val)} />
+                </div>
                 <label className="text-xs">Transaction Category</label>
                 {/* Category select, select from the enum */}
                 <select className="bg-stone-900 p-4 rounded-md my-4" value={transactionCategory || ""} onChange={(e) => setTransactionCategory(e.target.value as TransactionCategory)}>
