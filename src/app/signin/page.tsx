@@ -8,18 +8,6 @@ import { useRouter } from "next/router";
 export default function Login() {
     const session = useSession()
 
-    if (session.status === "loading") {
-        return (
-            <div className="p-8 w-screen h-screen flex items-center justify-center">
-                <p className="text-gray-500">Loading...</p>
-            </div>
-        )
-    }
-
-    if (session.status === "authenticated") {
-        window.location.href = "/feed";
-    }
-
     return (
         <div className=" p-8 w-screen h-screen flex items-center justify-center">
             <Card className="w-full max-w-md mx-auto p-6">

@@ -1,36 +1,140 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# Documentatie API Endpoints
 
-## Getting Started
+## `/api/bankaccount`
 
-First, run the development server:
+Everything related to managing bank accounts.
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+### `GET /api/bankaccount/accounts`
+
+Get all bank accounts of the authenticated user.
+
+```ts
+# Response shape
+{
+    bankAccounts: {
+        id: string;
+        userId: string;
+        currency: $Enums.Currency; // 'EUR' | 'USD' | 'GBP'
+        balance: number;
+        iban: string;
+        createdAt: Date;
+        updatedAt: Date;
+        name: string;
+    }[]
+}
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+### `POST /api/bankaccount/create`
 
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
+Create a new bank account for the authenticated user.
 
-## Learn More
+```ts
+# Request shape
+{
+    name: string; // Min length: 1, Max length: 255
+    currency: $Enums.Currency; // 'EUR' | 'USD' | 'GBP'
+}
+```
 
-To learn more about Next.js, take a look at the following resources:
+### `POST /api/bankaccount/delete`
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+Delete a bank account of the authenticated user.
+ 
+> This action is irreversible. And also all the transactions and balances will be deleted.
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
+```ts
+# Request shape
+{
+    bankAccountId: string;
+}
+```
 
-## Deploy on Vercel
+### `/api/bankaccount/balance`
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+Actions related to adding funds to the bank account.
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+#### `POST /api/bankaccount/balance/topup/create-checkout-session`
+
+Creates a new stripe checkout session to add funds to the bank account.
+
+```ts
+# Request shape
+{
+    accountID: string;
+    amount: number;
+    currency: string; // 'EUR' | 'USD' | 'GBP'
+}
+```
+
+```ts
+# Response shape
+{
+    id: string; // Stripe checkout session id
+    url: string; // Stripe checkout session url
+}
+```
+
+#### `GET /api/bankaccount/balance/topup/success`
+
+Works like a webhook. It's called by stripe when the payment is successful.
+
+It will add the funds to the bank account.
+
+```ts
+# Query params
+{
+    session_id: string; // Stripe checkout session id
+}
+```
+
+### `/api/bankaccount/transactions`
+
+Actions related to transactions of the bank account. Especially fetching the transactions.
+
+#### `GET /api/bankaccount/pastweek/[accountID]`
+
+Get all transactions of the past week for the given bank account.
+
+```ts
+{
+    id: string;
+    amount: number;
+    createdAt: Date;
+    updatedAt: Date;
+    category: string | null;
+    senderId: string;
+    receiverId: string;
+}[]
+```
+
+## `POST /api/extras`
+
+Generate a PDF report of the bank account transactions.
+
+```ts
+# Request shape
+{
+    accountId: string; // The bank account id
+}
+```
+
+```ts
+# Response shape
+
+Byte data of the PDF file.
+```
+
+## `POST /api/transfer/send`
+
+Send money from one bank account to another.
+
+```ts
+# Request shape
+{
+    from: string; // The id of the account from which we will send money
+    toIBAN: string; // The IBAN to which we will send money
+    amount: number;
+    category: string; // 'HOME' | 'WORK' | 'SHOPPING' | 'ENTERTAINMENT' | 'OTHER'
+}
+```

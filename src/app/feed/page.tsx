@@ -11,9 +11,10 @@ export default async function Home() {
   const session = await auth();
 
   if (!session?.user?.id) {
-    window.location.href = "/signin";
     return (
-      <div>not authenticated</div>
+      <div>
+        Unauthorized
+      </div>
     )
   }
   const bankAccounts = await bankAccountsService.getAllBankAccountsOfUser(session.user.id);
