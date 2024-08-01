@@ -14,6 +14,7 @@ export async function POST(request: Request) {
     // Use zod to validate the body
     const createBankAccountSchema = z.object({
         currency: z.enum(['USD', 'EUR', 'GBP']),
+        accountName: z.string().min(1).max(255),
     })
 
     const validatedBody = await createBankAccountSchema.parseAsync(body)
@@ -27,7 +28,7 @@ export async function POST(request: Request) {
 
     // Try to create the bank account
     try {
-        const newBankAccount = await bankAccountsService.createNewBankAccount(session.user.id, validatedBody.currency)
+        const newBankAccount = await bankAccountsService.createNewBankAccount(session.user.id, validatedBody.currency, validatedBody.accountName)
         return new Response(JSON.stringify(newBankAccount), { status: 201 })
     } catch (error: any) {
         return new Response(error.message, { status: 400 })

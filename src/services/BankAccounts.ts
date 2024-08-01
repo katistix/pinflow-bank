@@ -112,7 +112,7 @@ export class BankAccountsService {
 
         return bankAccounts;
     }
-    async createNewBankAccount(userId: string, currency: "USD" | "EUR" | "GBP") {
+    async createNewBankAccount(userId: string, currency: "USD" | "EUR" | "GBP", accountName: string) {
         // Generate a new bank account iban
 
         // Make sure there is no other bank account with the same iban
@@ -133,7 +133,7 @@ export class BankAccountsService {
 
         const newBankAccount = await this.prisma.bankAccount.create({
             data: {
-                name: "Main",
+                name: accountName,
                 iban,
                 userId,
                 balance: 0,

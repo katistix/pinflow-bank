@@ -4,20 +4,27 @@ import { Button } from "../ui/button";
 import { Dialog, DialogContent, DialogTrigger } from "../ui/dialog";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "../ui/select";
 import toast from "react-hot-toast";
+import { Input } from "../ui/input";
 
 export function NewBankAccount() {
     const [alreadyCreated, setAlreadyCreated] = useState<boolean>(false);
     const [selectedCurrency, setSelectedCurrency] = useState<string | null>(null);
+    const [accountName, setAccountName] = useState<string | null>(null);
 
     const handleCreateNewBankAccount = async () => {
         if (!selectedCurrency) {
+            return;
+        }
+
+        if (!accountName) {
             return;
         }
         setAlreadyCreated(true);
         const res = await fetch('/api/bankaccount/create', {
             method: 'POST',
             body: JSON.stringify({
-                currency: selectedCurrency
+                currency: selectedCurrency,
+                accountName: accountName
             }),
         })
 
@@ -41,6 +48,7 @@ export function NewBankAccount() {
                 <button className="px-4 py-2 mb-4 rounded-full bg-stone-800 text-xs bg-opacity-75">Create new account +</button>
             </DialogTrigger>
             <DialogContent className="sm:max-w-[425px]">
+                <Input type="text" placeholder="Account name" onChange={(e) => setAccountName(e.target.value)} value={accountName || ""} />
                 <Select
                     onValueChange={
                         (value) => {
@@ -59,7 +67,7 @@ export function NewBankAccount() {
                 </Select>
 
                 <Button disabled={
-                    alreadyCreated || !selectedCurrency
+                    alreadyCreated || !selectedCurrency || !accountName
                 } onClick={handleCreateNewBankAccount}>Create new account</Button>
             </DialogContent>
         </Dialog >

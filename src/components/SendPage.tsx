@@ -1,6 +1,5 @@
 "use client";
 
-import { Input } from "@/components/ui/input";
 import { IconArrowLeft, IconQrcode } from "@tabler/icons-react";
 import { useEffect, useState } from "react";
 import { TransactionCategory } from "@/services/types";
@@ -38,22 +37,9 @@ export function SendPage(props: SendPageProps) {
 
     const handleAmountChange = (e: React.ChangeEvent<HTMLInputElement>) => {
 
-        if (!balance) {
-            return;
-        }
-
-        // If more than 2 decimal places, don't allow more input
-        if (e.target.value.split(".")[1]?.length > 2) {
-            return;
-        }
-
-        // Don't allow more than 6 characters
-        if (e.target.value.length > 6) {
-            return;
-        }
 
         // if the input amount is more than the balance, don't allow more input
-        if (parseFloat(e.target.value) > balance) {
+        if (parseFloat(e.target.value) > balance! || parseFloat(e.target.value) < 0) {
             toast.error("Amount too large", {
                 duration: 800
             });
@@ -131,7 +117,7 @@ export function SendPage(props: SendPageProps) {
                     className="bg-none border-none bg-transparent outline-none w-full pb-8 text-5xl font-bold text-center"
                     type="number"
                     placeholder="0.00"
-                    value={amount ? amount.toFixed(2) : ""}
+                    value={amount || ""}
                     onChange={handleAmountChange}
                 />
                 {currency && (

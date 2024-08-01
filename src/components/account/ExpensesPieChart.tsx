@@ -21,47 +21,27 @@ import {
 import { TransactionCategory } from "@/services/types"
 
 const chartConfig = {
-    spent: {
+    amount: {
         label: "Spent",
     }
 } satisfies ChartConfig
 
 TransactionCategory
 const chartData = [
-    { category: "food", spent: 4500, fill: "hsl(var(--chart-1))" },
-    { category: "work", spent: 3000, fill: "hsl(var(--chart-2))" },
-    { category: "SHOPPING", spent: 2000, fill: "hsl(var(--chart-3))" },
-    { category: "ENTERTAINMENT", spent: 1000, fill: "hsl(var(--chart-4))" },
-    { category: "other", spent: 1000, fill: "hsl(var(--chart-5))" },
+    { category: "food", amount: 4500, fill: "hsl(var(--chart-1))" },
+    { category: "work", amount: 3000, fill: "hsl(var(--chart-2))" },
+    { category: "SHOPPING", amount: 2000, fill: "hsl(var(--chart-3))" },
+    { category: "ENTERTAINMENT", amount: 1000, fill: "hsl(var(--chart-4))" },
+    { category: "other", amount: 1000, fill: "hsl(var(--chart-5))" },
 ]
-
-
-
-
 
 export function ExpensesPieChart(props: {
     currency: string
     accountId: string
 }) {
     const totalVisitors = React.useMemo(() => {
-        return chartData.reduce((acc, curr) => acc + curr.spent, 0)
+        return chartData.reduce((acc, curr) => acc + curr.amount, 0)
     }, [])
-
-
-    const fetchExpenses = async () => {
-        const response = await fetch(`/api/bankaccount/transactions/pastweek/${props.accountId}`)
-
-        if (!response.ok) {
-            return
-        }
-
-        const data = await response.json()
-
-        const expenses = data.expenses as {
-            category: TransactionCategory
-            spent: number
-        }[]
-    }
 
 
 
@@ -86,7 +66,7 @@ export function ExpensesPieChart(props: {
                         />
                         <Pie
                             data={chartData}
-                            dataKey="spent"
+                            dataKey="amount"
                             nameKey="category"
                             innerRadius={60}
                             strokeWidth={5}

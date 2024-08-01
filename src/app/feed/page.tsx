@@ -1,7 +1,5 @@
 import { AccountPreview } from "@/components/account/AccountPreview";
 import { AccountSwitcher } from "@/components/account/AccountSwitcher";
-import { NewBankAccount } from "@/components/account/NewBankAccount";
-import { SendMoneyToIBAN } from "@/components/transfer/SendMoneyToIBAN";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
 import { auth } from "@/lib/auth";
