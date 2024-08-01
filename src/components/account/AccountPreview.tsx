@@ -3,6 +3,7 @@ import React from 'react';
 import { IconDots, IconPlus, IconQrcode, IconReceipt } from '@tabler/icons-react';
 import { AddMoneyDialog } from './AddMoney';
 import { IbanQrDrawer } from './IbanQrDrawer';
+import { NewBankAccount } from './NewBankAccount';
 
 type AccountPreviewProps = {
     account: {
@@ -34,6 +35,7 @@ export const AccountPreview = ({ account }: AccountPreviewProps) => {
         <div className="flex flex-col justify-center items-center py-10">
             <h2 className='text-xs'>{account.name} &bull; {account.currency}</h2>
             <h1 className="text-4xl font-bold text-center my-4">{account.balance.toFixed(2)} {account.currency}</h1>
+            <NewBankAccount />
 
             <div className="flex flex-row justify-between w-full px-4 my-8">
                 <AddMoneyDialog accountID={account.id} accountName={account.name} currency={account.currency}>

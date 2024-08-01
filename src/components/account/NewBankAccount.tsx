@@ -38,7 +38,7 @@ export function NewBankAccount() {
     return (
         <Dialog>
             <DialogTrigger asChild>
-                <Button>Create new account</Button>
+                <button className="px-4 py-2 mb-4 rounded-full bg-stone-800 text-xs bg-opacity-75">Create new account +</button>
             </DialogTrigger>
             <DialogContent className="sm:max-w-[425px]">
                 <Select
