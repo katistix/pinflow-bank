@@ -43,6 +43,11 @@ export const AccountSwitcher = (props: AccountSwitcherProps) => {
     const [selectedAccount, setSelectedAccount] = useAtom(selectedAccountAtom)
 
     useEffect(() => {
+        setSelectedAccount(props.accounts[0].id)
+    }, [])
+
+
+    useEffect(() => {
         if (!api) {
             return
         }
@@ -72,7 +77,7 @@ export const AccountSwitcher = (props: AccountSwitcherProps) => {
                 </CarouselContent>
             </Carousel>
             <div className="rounded-md bg-stone-900">
-                <ExpensesPieChart accountId={selectedAccount || ""} currency={props.accounts[activeIndex].currency} />
+                <ExpensesPieChart accountId={selectedAccount!} currency={props.accounts[activeIndex].currency} />
             </div>
 
         </div>
